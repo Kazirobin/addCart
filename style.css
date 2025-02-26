@@ -1,12 +1,12 @@
-*{
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+* {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-#book_container {
+#book_container,#cart_container {
   background-color: aquamarine;
   display: flex;
 }
-img{
-    width: 100px;
+img {
+  width: 100px;
 }
 .ebook {
   width: 150px;

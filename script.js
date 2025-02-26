@@ -1,31 +1,41 @@
-// let price = [392, 34, 34, 344, 555, 3, 31, 6, 878, 454];
-// async function fetchData() {
-//   const book = document.getElementById("book");
-
-//   const res = await fetch("https://www.freetestapi.com/api/v1/books");
-//   let data = await res.json();
-//   //   console.log(data)
-//   data.slice(0, 10).forEach((item) => {
-//     book.innerHTML += `<p>${item.title}</p>
-//     <p >${price[item.id]}</p>
-//     `;
-//     console.log(item);
-//   });
-// }
-// fetchData();
-
+const cart = [];
 async function fetchData() {
-  const book = document.getElementById("book_container")
-  const data = await fetch("./data.json")
-  const theData = await data.json()
-  console.log(theData)
-  theData.forEach(books => {
+  const book = document.getElementById("book_container");
+  const data = await fetch("./data.json");
+  const theData = await data.json();
+  console.log(theData);
+  theData.forEach((books, index) => {
     book.innerHTML += `<div class="ebook">
                 <p class="title">${books.title}</p>
                 <img src="${books.src}" alt="">
                 <p class="price">${books.price}</p>
-                <button>Add To Cart</button>
-            </div>`
+                <button class="cart_btn" data-id="${index}">Add To Cart</button>
+            </div>`;
+
+    //when i click cart_btn it push my selected cart in cart array
+    document.querySelectorAll(".cart_btn").forEach((book) => {
+      book.addEventListener("click", function () {
+        const cartBtnIndex = this.getAttribute("data-id");
+        cart.push(theData[cartBtnIndex]);
+        addToCart(cartBtnIndex);
+      });
+    });
   });
 }
-fetchData()
+fetchData();
+
+//this function create cart in cart_container
+function addToCart(index) {
+  const cartContainer = document.getElementById("cart_container");
+  cartContainer.innerHTML = "";
+  cart.forEach((cartItem, index) => {
+    cartContainer.innerHTML += `
+    <div class="ebook">
+      <p class="title">${cartItem.title}</p>
+      <img src="${cartItem.src}" alt="">
+      <p class="price">${cartItem.price}</p>
+      <button class="remove_btn" data-id="${index}">Remove</button>
+    </div>
+  `;
+  });
+}
