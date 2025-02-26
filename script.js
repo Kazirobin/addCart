@@ -37,5 +37,18 @@ function addToCart(index) {
       <button class="remove_btn" data-id="${index}">Remove</button>
     </div>
   `;
+  document.querySelectorAll(".remove_btn").forEach((cart) => { 
+    cart.addEventListener("click",function(){
+      const cartIndex = this.getAttribute("data-id")
+      removeCart(cartIndex)
+      console.log(cartIndex)
+
+    })
+   })
   });
+}
+
+function removeCart(index){
+cart.splice(index,1)
+addToCart()
 }
