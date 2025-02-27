@@ -3,12 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./style.css" />
+    <title>Book Store</title>
+    <style>
+      .imgs {
+        flex: 1;
+        align-self: center;
+        display: flex;
+        align-items: flex-end;
+        img {
+          height: 150px;
+        }
+      }
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .ebook {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+        width: 150px;
+        display: flex;
+        flex-direction: column;
+      }
+      .cart-section {
+        margin-top: 20px;
+      }
+      .total-section {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #000;
+        width: 250px;
+      }
+    </style>
   </head>
   <body>
-    <div id="book_container"></div>
-    <div id="cart_container"></div>
+    <h1>Book Store</h1>
+    <div id="book_container" class="container"></div>
+
+    <h2>Shopping Cart</h2>
+    <div id="cart_container" class="cart-section container"></div>
+
+    <div class="total-section">
+      <h3>Total Amount: <span id="total_price">$0</span></h3>
+      <label>Discount (%):</label>
+      <input type="number" id="discount_input" min="0" max="100" value="0" />
+      <button id="apply_discount">Apply Discount</button>
+      <h3>Final Price: <span id="final_price">$0</span></h3>
+    </div>
+
     <script src="./script.js"></script>
   </body>
 </html>
