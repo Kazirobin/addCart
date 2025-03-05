@@ -7,10 +7,10 @@ async function fetchData() {
   try {
     const response = await fetch("./data.json");
     const books = await response.json();
-    
+
     bookContainer.innerHTML = "";
 
-    books.forEach((book) => {
+    books.forEach((book, index) => {
       const bookItem = document.createElement("div");
       bookItem.classList.add("ebook");
 
@@ -18,7 +18,7 @@ async function fetchData() {
         <p class="title">${book.title}</p>
         <div class="imgs"><img src="${book.src}" alt="${book.title}"></div>
         <p class="price">৳${book.price}</p>
-        <button class="cart_btn" data-id="${book.id}">Add To Cart</button>
+        <button class="cart_btn" data-id="${index}">Add To Cart</button>
       `;
 
       bookContainer.appendChild(bookItem);
@@ -27,12 +27,10 @@ async function fetchData() {
     // Add event listeners to "Add to Cart" buttons
     document.querySelectorAll(".cart_btn").forEach((button) => {
       button.addEventListener("click", function () {
-        const bookId = parseInt(this.getAttribute("data-id"));
-        const book = books.find(b => b.id === bookId);
-        if (book) addToCart(book);
+        const bookIndex = this.getAttribute("data-id");
+        addToCart(books[bookIndex]);
       });
     });
-
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -68,14 +66,6 @@ function addToCart(book) {
   }
 }
 
-// Remove book from cart
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  saveCartToLocalStorage();
-  updateCart();
-  calculateTotal();
-}
-
 // Update cart UI
 function updateCart() {
   const cartContainer = document.getElementById("cart_container");
@@ -103,6 +93,14 @@ function updateCart() {
     });
   });
 
+  calculateTotal();
+}
+
+// Remove book from cart
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  saveCartToLocalStorage();
+  updateCart();
   calculateTotal();
 }
 
@@ -143,12 +141,14 @@ function applyDiscount() {
     discount = 0;
   }
 
-  let discountedPrice = total - (total * discount / 100);
+  let discountedPrice = total - (total * discount) / 100;
   finalPriceElement.textContent = `৳${discountedPrice.toFixed(2)}`;
 }
 
 // Apply discount on button click
-document.getElementById("apply_discount").addEventListener("click", applyDiscount);
+document
+  .getElementById("apply_discount")
+  .addEventListener("click", applyDiscount);
 
 // Load data on page start
 document.addEventListener("DOMContentLoaded", () => {
